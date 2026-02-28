@@ -7,7 +7,7 @@ function BookList({ onSelectBook }) {
   const [selectedGenre, setSelectedGenre] = useState("");
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/books/")
+    axios.get("fetch(`${process.env.REACT_APP_API_URL}/api/books/`)")
       .then(res => setBooks(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -117,7 +117,7 @@ function BookList({ onSelectBook }) {
                 className="book-cover" 
                 style={{ 
                   background: book.cover_image 
-                    ? `url(http://127.0.0.1:8000/media${book.cover_image})`
+                    ? `url(fetch(`${process.env.REACT_APP_API_URL}/api/books/)`
                     : getGradient(book.title),
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'

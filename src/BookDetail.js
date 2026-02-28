@@ -62,7 +62,7 @@ function BookDetail({ book, onBack }) {
             className="book-detail-cover"
             style={{ 
               background: book.cover_image 
-                ? `url(http://127.0.0.1:8000/media${book.cover_image})`
+                ? `url(fetch(`${process.env.REACT_APP_API_URL}/api/books/`))`
                 : getGradient(book.title),
               backgroundSize: 'cover',
               backgroundPosition: 'center',

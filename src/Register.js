@@ -22,7 +22,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/register/", formData);
+      const res = await axios.post(fetch(`${process.env.REACT_APP_API_URL}/api/books/`), formData);
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("member_id", res.data.member_id);

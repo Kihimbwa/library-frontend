@@ -4,7 +4,7 @@ function ReturnBook({ borrow, onReturnSuccess }) {
   const handleReturn = () => {
     const token = localStorage.getItem("token");
     
-    axios.post(`http://127.0.0.1:8000/api/borrows/${borrow.id}/return_book/`, {}, {
+    axios.post(`fetch(`${process.env.REACT_APP_API_URL}/api/books/`), {}, {
       headers: {
         'Authorization': `Token ${token}`
       }

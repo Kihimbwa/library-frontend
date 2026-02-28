@@ -8,7 +8,7 @@ function BorrowedBooks() {
 
   const fetchBorrows = () => {
     const token = localStorage.getItem("token");
-    axios.get("http://127.0.0.1:8000/api/borrows/", {
+    axios.get(fetch(`${process.env.REACT_APP_API_URL}/api/books/`), {
       headers: {
         'Authorization': `Token ${token}`
       }
@@ -63,7 +63,7 @@ function BorrowedBooks() {
                 className="borrowed-cover"
                 style={{ 
                   background: borrow.book.cover_image 
-                    ? `url(http://127.0.0.1:8000${borrow.book.cover_image})`
+                    ? `url(fetch(`${process.env.REACT_APP_API_URL}/api/books/`))`
                     : getGradient(borrow.book.title),
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
