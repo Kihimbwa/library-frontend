@@ -19,7 +19,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
     setLoading(true);
 
     try {
-      const res = await axios.post(fetch(`${process.env.REACT_APP_API_URL}/api/books/`), formData);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login/`, formData); // ✅ fixed
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", res.data.user_id);

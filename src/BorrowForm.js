@@ -11,7 +11,7 @@ function BorrowForm({ book, onBorrowSuccess }) {
     
     const token = localStorage.getItem("token");
     
-    axios.post(fetch(`${process.env.REACT_APP_API_URL}/api/books/`)`, {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/form/`, { // ✅ fixed
       book_id: book.id,
       expected_return_date: expectedReturnDate
     }, {

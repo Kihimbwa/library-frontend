@@ -22,7 +22,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
     setLoading(true);
 
     try {
-      const res = await axios.post(fetch(`${process.env.REACT_APP_API_URL}/api/books/`), formData);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/register/`, formData); // ✅ fixed
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("member_id", res.data.member_id);
@@ -50,9 +50,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">
-              👤 Username
-            </label>
+            <label className="form-label">👤 Username</label>
             <input
               type="text"
               name="username"
@@ -65,9 +63,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              📧 Email
-            </label>
+            <label className="form-label">📧 Email</label>
             <input
               type="email"
               name="email"
@@ -80,9 +76,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              🔑 Password
-            </label>
+            <label className="form-label">🔑 Password</label>
             <input
               type="password"
               name="password"
@@ -95,9 +89,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              📱 Phone
-            </label>
+            <label className="form-label">📱 Phone</label>
             <input
               type="text"
               name="phone"
@@ -110,9 +102,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              📍 Address
-            </label>
+            <label className="form-label">📍 Address</label>
             <textarea
               name="address"
               value={formData.address}

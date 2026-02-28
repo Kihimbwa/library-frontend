@@ -3,6 +3,7 @@ import BorrowForm from "./BorrowForm";
 
 function BookDetail({ book, onBack }) {
   const [showBorrowForm, setShowBorrowForm] = useState(false);
+
   // Function to get gradient based on title
   const getGradient = (title) => {
     const gradients = [
@@ -62,7 +63,7 @@ function BookDetail({ book, onBack }) {
             className="book-detail-cover"
             style={{ 
               background: book.cover_image 
-                ? `url(fetch(`${process.env.REACT_APP_API_URL}/api/books/`))`
+                ? `url(${process.env.REACT_APP_API_URL}${book.cover_image})` // ✅ fixed
                 : getGradient(book.title),
               backgroundSize: 'cover',
               backgroundPosition: 'center',

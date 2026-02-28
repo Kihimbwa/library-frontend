@@ -7,7 +7,7 @@ function BookList({ onSelectBook }) {
   const [selectedGenre, setSelectedGenre] = useState("");
 
   useEffect(() => {
-    axios.get("fetch(`${process.env.REACT_APP_API_URL}/api/books/`)")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/books/`) // ✅ fixed
       .then(res => setBooks(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -117,7 +117,7 @@ function BookList({ onSelectBook }) {
                 className="book-cover" 
                 style={{ 
                   background: book.cover_image 
-                    ? `url(fetch(`${process.env.REACT_APP_API_URL}/api/books/)`
+                    ? `url(${process.env.REACT_APP_API_URL}${book.cover_image})` // ✅ fixed
                     : getGradient(book.title),
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
