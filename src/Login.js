@@ -9,17 +9,33 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login/`, formData); // ✅ fixed
+      // ✅ Explicit JSON keys
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/login/`,
+        {
+          username: formData.username, // Change to "email" if your backend expects email
+          password: formData.password
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      // Successful login
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", res.data.user_id);
@@ -29,7 +45,12 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
         onLoginSuccess(res.data);
       }
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed. Please check your credentials.");
+      // Catch 400 or other errors
+      setError(
+        err.response?.data?.error ||
+        err.response?.data?.detail ||
+        "Login failed. Please check your credentials."
+      );
     } finally {
       setLoading(false);
     }
@@ -40,18 +61,12 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
       <div className="auth-card">
         <h2 className="auth-title">📚 Library Login</h2>
         <p className="auth-subtitle">Welcome back! Please login to continue</p>
-        
-        {error && (
-          <div className="auth-error">
-            ⚠️ {error}
-          </div>
-        )}
+
+        {error && <div className="auth-error">⚠️ {error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">
-              👤 Username
-            </label>
+            <label className="form-label">👤 Username</label>
             <input
               type="text"
               name="username"
@@ -64,9 +79,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">
-              🔒 Password
-            </label>
+            <label className="form-label">🔒 Password</label>
             <input
               type="password"
               name="password"
