@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import BorrowForm from "./BorrowForm";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function BookDetail({ book, onBack }) {
   const [showBorrowForm, setShowBorrowForm] = useState(false);
 
@@ -63,7 +66,7 @@ function BookDetail({ book, onBack }) {
             className="book-detail-cover"
             style={{ 
               background: book.cover_image 
-                ? `url(${process.env.REACT_APP_API_URL}${book.cover_image})` // ✅ fixed
+                ? `url(${API_URL}${book.cover_image})` // ✅ fixed
                 : getGradient(book.title),
               backgroundSize: 'cover',
               backgroundPosition: 'center',

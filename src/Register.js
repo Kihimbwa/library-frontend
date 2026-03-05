@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function Register({ onRegisterSuccess, onSwitchToLogin }) {
   const [formData, setFormData] = useState({
     username: "",
@@ -22,7 +25,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/register/`, formData); // ✅ fixed
+      const res = await axios.post(`${API_URL}/api/register/`, formData); // ✅ fixed
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("member_id", res.data.member_id);

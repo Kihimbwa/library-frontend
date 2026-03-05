@@ -1,14 +1,18 @@
 import axios from "axios";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function ReturnBook({ borrow, onReturnSuccess }) {
   const handleReturn = () => {
     const token = localStorage.getItem("token");
     
-    axios.post(`${process.env.REACT_APP_API_URL}/api/return/`, { // ✅ fixed
+    axios.post(`${API_URL}/api/borrows/${borrow.id}/return_book/`, { // ✅ fixed
       borrow_id: borrow.id
     }, {
       headers: {
-        'Authorization': `Token ${token}`
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json'
       }
     })
       .then(res => {

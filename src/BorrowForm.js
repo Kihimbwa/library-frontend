@@ -1,22 +1,28 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function BorrowForm({ book, onBorrowSuccess }) {
   const [expectedReturnDate, setExpectedReturnDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     
     const token = localStorage.getItem("token");
     
-    axios.post(`${process.env.REACT_APP_API_URL}/api/borrows/`, {
+    axios.post(`${API_URL}/api/borrows/`, {
       book_id: book.id,
       expected_return_date: expectedReturnDate
     }, {
       headers: {
-        'Authorization': `Token ${token}`
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json'
       }
     })
     .then(res => {
@@ -24,8 +30,13 @@ function BorrowForm({ book, onBorrowSuccess }) {
       onBorrowSuccess();
     })
     .catch(err => {
-      console.log(err);
-      alert("Failed to borrow book. Please try again.");
+      console.log("Borrow error:", err);
+      // Show more detailed error message
+      const errorMessage = err.response?.data?.error || 
+                           err.response?.data?.message ||
+                           err.response?.data?.detail ||
+                           "Failed to borrow book. Please try again.";
+      setError(errorMessage);
     })
     .finally(() => {
       setLoading(false);
@@ -91,6 +102,19 @@ function BorrowForm({ book, onBorrowSuccess }) {
             {loading ? "⏳ Processing..." : "✅ Confirm Borrow"}
           </button>
         </form>
+
+        {error && (
+          <div style={{ 
+            marginTop: '16px', 
+            padding: '12px', 
+            background: '#fee2e2', 
+            borderRadius: '8px',
+            color: '#dc2626',
+            textAlign: 'center'
+          }}>
+            ⚠️ {error}
+          </div>
+        )}
       </div>
     </div>
   );

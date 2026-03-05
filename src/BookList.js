@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function BookList({ onSelectBook }) {
   const [books, setBooks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/books/`) // ✅ fixed
+    axios.get(`${API_URL}/api/books/`) // ✅ fixed
       .then(res => setBooks(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -117,7 +120,7 @@ function BookList({ onSelectBook }) {
                 className="book-cover" 
                 style={{ 
                   background: book.cover_image 
-                    ? `url(${process.env.REACT_APP_API_URL}${book.cover_image})` // ✅ fixed
+                    ? `url(${API_URL}${book.cover_image})` // ✅ fixed
                     : getGradient(book.title),
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'

@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ReturnBook from "./ReturnBook";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function BorrowedBooks() {
   const [borrows, setBorrows] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchBorrows = () => {
     const token = localStorage.getItem("token");
-    axios.get(`${process.env.REACT_APP_API_URL}/api/borrowed/`, { // ✅ fixed
+    axios.get(`${API_URL}/api/borrows/`, { // ✅ fixed
       headers: {
         'Authorization': `Token ${token}`
       }
@@ -63,7 +66,7 @@ function BorrowedBooks() {
                 className="borrowed-cover"
                 style={{ 
                   background: borrow.book.cover_image 
-                    ? `url(${process.env.REACT_APP_API_URL}${borrow.book.cover_image})` // ✅ fixed
+                    ? `url(${API_URL}${borrow.book.cover_image})` // ✅ fixed
                     : getGradient(borrow.book.title),
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Fallback API URL if environment variable is not set
+const API_URL = process.env.REACT_APP_API_URL || "https://my-project-5fi1.onrender.com";
+
 function Login({ onLoginSuccess, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
     username: "",
@@ -23,7 +26,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
     try {
       // ✅ Explicit JSON keys
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/login/`,
+        `${API_URL}/api/login/`,
         {
           username: formData.username, // Change to "email" if your backend expects email
           password: formData.password
