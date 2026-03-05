@@ -31,11 +31,42 @@ function BorrowForm({ book, onBorrowSuccess }) {
     })
     .catch(err => {
       console.log("Borrow error:", err);
-      // Show more detailed error message
-      const errorMessage = err.response?.data?.error || 
-                           err.response?.data?.message ||
-                           err.response?.data?.detail ||
-                           "Failed to borrow book. Please try again.";
+      console.log("Error response:", err.response);
+      console.log("Error data:", err.response?.data);
+      console.log("Error status:", err.response?.status);
+      
+      // Try to extract the most detailed error message possible
+      let errorMessage = "Failed to borrow book. Please try again.";
+      
+      if (err.response) {
+        // Server responded with error
+        const data = err.response.data;
+        if (data) {
+          if (typeof data === 'string') {
+            errorMessage = data;
+          } else if (data.error) {
+            errorMessage = data.error;
+          } else if (data.message) {
+            errorMessage = data.message;
+          } else if (data.detail) {
+            errorMessage = data.detail;
+          } else if (Array.isArray(data)) {
+            errorMessage = data.join(', ');
+          } else {
+            // Try to get first key's value
+            const firstKey = Object.keys(data)[0];
+            if (firstKey && data[firstKey]) {
+              errorMessage = Array.isArray(data[firstKey]) 
+                ? data[firstKey].join(', ') 
+                : String(data[firstKey]);
+            }
+          }
+        }
+      } else if (err.request) {
+        // No response received - network error
+        errorMessage = "Cannot connect to server. Please check your internet connection.";
+      }
+      
       setError(errorMessage);
     })
     .finally(() => {
