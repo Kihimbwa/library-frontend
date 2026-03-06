@@ -66,7 +66,7 @@ function BookDetail({ book, onBack }) {
             className="book-detail-cover"
             style={{ 
               background: book.cover_image 
-                ? `url(${API_URL}${book.cover_image})` // ✅ fixed
+                ? `url(${API_URL}${book.cover_image})` 
                 : getGradient(book.title),
               backgroundSize: 'cover',
               backgroundPosition: 'center',

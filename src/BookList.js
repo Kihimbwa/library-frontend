@@ -120,7 +120,7 @@ function BookList({ onSelectBook }) {
                 className="book-cover" 
                 style={{ 
                   background: book.cover_image 
-                    ? `url(${API_URL}${book.cover_image})` // ✅ fixed
+                    ? `url(${API_URL}${book.cover_image})` 
                     : getGradient(book.title),
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
